@@ -1,0 +1,19 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  pr-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Changelog
+        uses: Cognigy/github-actions/changelog-validation@v1
+
+      - name: Validate Work Item
+        uses: Cognigy/github-actions/work-item-validation@v1

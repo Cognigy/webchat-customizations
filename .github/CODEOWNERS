@@ -1,0 +1,39 @@
+# CODEOWNERS
+# This file defines code ownership for this repository.
+# Reviews will be automatically requested from the specified owners when a PR touches their code.
+#
+# Each line is a file pattern followed by one or more owners (GitHub usernames or team names).
+# Order matters - the last matching pattern takes precedence.
+#
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo (unless a more specific rule below applies)
+# * @Cognigy/your-team-name
+
+# Examples - Customize these for your project:
+# -------------------------------------------
+
+# Infrastructure and CI/CD files
+# /.github/ @Cognigy/devops-team
+# /infrastructure/ @Cognigy/devops-team
+# *.yaml @Cognigy/devops-team
+# *.yml @Cognigy/devops-team
+# Dockerfile @Cognigy/devops-team
+
+# Documentation
+# /docs/ @Cognigy/tech-writers
+# *.md @Cognigy/tech-writers
+
+# Security-sensitive files
+# /security/ @Cognigy/security-team
+# SECURITY.md @Cognigy/security-team
+
+# Specific directories owned by different teams
+# /src/frontend/ @Cognigy/frontend-team
+# /src/backend/ @Cognigy/backend-team
+# /src/api/ @Cognigy/api-team
+
+# Configuration files
+# /.config/ @Cognigy/platform-team
+# package.json @Cognigy/platform-team
+

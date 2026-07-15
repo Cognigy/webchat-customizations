@@ -1,0 +1,22 @@
+{
+  "name": "@cognigy/base-template-release",
+  "version": "1.1.0",
+  "description": "Project description",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cognigy/base-template-release"
+  },
+  "keywords": [],
+  "author": "Cognigy GmbH",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "semantic-release": "^24.2.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/release-notes-generator": "^14.0.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0"
+  }
+}
