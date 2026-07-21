@@ -1,72 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Feedback Rating Button</title>
-    <meta charset="UTF-8" />
-    <style>
-      button.feedback-button {
-        margin: 0px !important;
-        padding: 8px;
-        box-sizing: border-box;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        transition: background-color 0.1s ease-out 0s, color 0.1s ease-out 0s,
-          fill 0.1s ease-out 0s;
-        color: rgba(0, 0, 0, 0.95);
-        fill: rgba(0, 0, 0, 0.95);
-        border-radius: 50%;
-        -webkit-appearance: button;
-        appearance: button;
-        cursor: pointer;
-      }
-    </style>
-  </head>
 
-  <body>
-    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
-    <script>
-      // const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
-      const ENDPOINT_URL = "https://endpoint-trial.cognigy.ai/9416598671810ccd3188217ddf2a845c7252f6242e6d5e7cd8b5f14d17a41277"
+<head>
+  <title>Feedback Rating Button</title>
+  <meta charset="UTF-8" />
+  <style>
+    button.feedback-button {
+      margin: 0px !important;
+      padding: 8px;
+      box-sizing: border-box;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      transition: background-color 0.1s ease-out 0s, color 0.1s ease-out 0s,
+        fill 0.1s ease-out 0s;
+      color: rgba(0, 0, 0, 0.95);
+      fill: rgba(0, 0, 0, 0.95);
+      border-radius: 50%;
+      -webkit-appearance: button;
+      appearance: button;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
-      // Send a data-only "feedback" event to the bot. The endpoint transformer
-      // is expected to catch this event, keep it out of the flow/NLU, and
-      // respond by triggering the rating plugin (with localized labels stored
-      // in the transformer).
-      function requestFeedback() {
-        window.cognigyWebchat.sendMessage("", { webchatEvent: "feedback" });
-        return;
-      }
+<body>
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+  <script>
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
 
-      initWebchat(ENDPOINT_URL).then((webchat) => {
-        window.cognigyWebchat = webchat;
-      });
+    // Send a data-only "feedback" event to the bot. The endpoint transformer
+    // is expected to catch this event, keep it out of the flow/NLU, and
+    // respond by triggering the rating plugin (with localized labels stored
+    // in the transformer).
+    function requestFeedback() {
+      window.cognigyWebchat.sendMessage("", { webchatEvent: "feedback" });
+      return;
+    }
 
-      // Inject the feedback button into the header bar whenever it appears.
-      let observer = new MutationObserver(() => {
-        let headerbarSearchResults =
-          document.getElementsByClassName("webchat-header-bar");
-        if (!headerbarSearchResults.length) return;
+    initWebchat(ENDPOINT_URL).then((webchat) => {
+      window.cognigyWebchat = webchat;
+    });
 
-        let headerbar = headerbarSearchResults.item(0);
-        if (document.getElementById("feedback-button")) return; // already created
+    // Inject the feedback button into the header bar whenever it appears.
+    let observer = new MutationObserver(() => {
+      let headerbarSearchResults =
+        document.getElementsByClassName("webchat-header-bar");
+      if (!headerbarSearchResults.length) return;
 
-        var feedbackButton = document.createElement("button");
-        feedbackButton.id = "feedback-button";
-        feedbackButton.className = "feedback-button";
-        feedbackButton.ariaLabel = "Feedback";
-        // icon taken from getbootstrap (star)
-        feedbackButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+      let headerbar = headerbarSearchResults.item(0);
+      if (document.getElementById("feedback-button")) return; // already created
+
+      var feedbackButton = document.createElement("button");
+      feedbackButton.id = "feedback-button";
+      feedbackButton.className = "feedback-button";
+      feedbackButton.ariaLabel = "Feedback";
+      // icon taken from getbootstrap (star)
+      feedbackButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
           <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
         </svg>`;
-        feedbackButton.setAttribute("onclick", "requestFeedback()");
-        headerbar.insertBefore(feedbackButton, headerbar.childNodes[2]);
-      });
+      feedbackButton.setAttribute("onclick", "requestFeedback()");
+      headerbar.insertBefore(feedbackButton, headerbar.childNodes[2]);
+    });
 
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-    </script>
-  </body>
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  </script>
+</body>
+
 </html>

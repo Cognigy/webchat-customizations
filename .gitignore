@@ -39,3 +39,5 @@ Thumbs.db
 # Claude Code — local/per-user settings and credentials (team-shared settings.json is committed)
 .claude/settings.local.json
 .claude/.credentials*
+
+claud.md

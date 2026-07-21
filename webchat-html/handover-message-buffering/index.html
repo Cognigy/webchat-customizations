@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Handover Message Buffering + Reconnect Flush</title>
-  </head>
-  <body>
-    <!-- Required: the standard Cognigy Webchat bundle -->
-    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
-    <script>
-      // Replace with your own Cognigy Webchat endpoint URL.
-      const ENDPOINT_URL = "https://your-endpoint.cognigy.ai/YOUR_URL_TOKEN";
 
-      // This page is the CLIENT half of the "handover message buffering"
-      // feature. Its job is to keep the websocket-connection state that the
-      // server-side transformer relies on accurate — especially when the user
-      // has the chat open in more than one browser tab.
-      //
-      // The problem it solves:
-      //   Cognigy fires a `user-disconnected` event whenever ANY websocket
-      //   closes. If the user has two tabs open and closes one, the transformer
-      //   would wrongly think the user is gone and start buffering agent
-      //   messages — so the still-open tab would stop receiving them.
-      //
-      // The handshake:
-      //   1. Before it starts buffering, the transformer sends a `health-check`
-      //      message to every open socket (via the Notify endpoint).
-      //   2. Any tab that is still alive answers with a synthetic
-      //      `user-connected` event.
-      //   3. Receiving that, the transformer cancels buffering and keeps
-      //      delivering agent messages live.
-      //   4. If NO tab answers (all were really closed), no `user-connected`
-      //      arrives, so buffering proceeds as intended and the messages are
-      //      flushed when the user next reconnects.
-      //
-      // See index.js in this folder for the transformer that produces the
-      // `health-check` message and performs the buffering/flush.
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Handover Message Buffering + Reconnect Flush</title>
+</head>
 
-      initWebchat(ENDPOINT_URL).then((webchat) => {
-        webchat.registerAnalyticsService((event) => {
-          if (event.type !== "webchat/incoming-message") return;
+<body>
+  <!-- Required: the standard Cognigy Webchat bundle -->
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+  <script>
+    // Replace with your own Cognigy Webchat endpoint URL.
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
 
-          const data = event.payload?.data;
-          if (!data) return;
+    // This page is the CLIENT half of the "handover message buffering"
+    // feature. Its job is to keep the websocket-connection state that the
+    // server-side transformer relies on accurate — especially when the user
+    // has the chat open in more than one browser tab.
+    //
+    // The problem it solves:
+    //   Cognigy fires a `user-disconnected` event whenever ANY websocket
+    //   closes. If the user has two tabs open and closes one, the transformer
+    //   would wrongly think the user is gone and start buffering agent
+    //   messages — so the still-open tab would stop receiving them.
+    //
+    // The handshake:
+    //   1. Before it starts buffering, the transformer sends a `health-check`
+    //      message to every open socket (via the Notify endpoint).
+    //   2. Any tab that is still alive answers with a synthetic
+    //      `user-connected` event.
+    //   3. Receiving that, the transformer cancels buffering and keeps
+    //      delivering agent messages live.
+    //   4. If NO tab answers (all were really closed), no `user-connected`
+    //      arrives, so buffering proceeds as intended and the messages are
+    //      flushed when the user next reconnects.
+    //
+    // See index.js in this folder for the transformer that produces the
+    // `health-check` message and performs the buffering/flush.
 
-          // The transformer sends this just before it begins buffering.
-          // Answering with `user-connected` proves this tab is alive and
-          // cancels the buffering on the server side.
-          if (data.event === "health-check") {
-            console.log(
-              "[handover-buffering] Received health-check; replying user-connected to keep this tab live."
-            );
-            webchat.sendMessage("", {
-              _cognigy: { event: { type: "user-connected" } },
-            });
-          }
-        });
+    initWebchat(ENDPOINT_URL).then((webchat) => {
+      webchat.registerAnalyticsService((event) => {
+        if (event.type !== "webchat/incoming-message") return;
+
+        const data = event.payload?.data;
+        if (!data) return;
+
+        // The transformer sends this just before it begins buffering.
+        // Answering with `user-connected` proves this tab is alive and
+        // cancels the buffering on the server side.
+        if (data.event === "health-check") {
+          console.log(
+            "[handover-buffering] Received health-check; replying user-connected to keep this tab live."
+          );
+          webchat.sendMessage("", {
+            _cognigy: { event: { type: "user-connected" } },
+          });
+        }
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>

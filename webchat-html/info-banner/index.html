@@ -1,292 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Cognigy Webchat + In-Chat Banner</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-      html {
-        background-color: #eee;
-      }
+<head>
+  <title>Cognigy Webchat + In-Chat Banner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      /* =========================================================
+  <style>
+    html {
+      background-color: #eee;
+    }
+
+    /* =========================================================
          Cognigy in-chat banner.
          All classes are namespaced with `cw-banner` so they never
          collide with Cognigy's hashed (cognigy-webchat-xxxxx) classes.
          Colors below are DEFAULTS; they're overridden per-banner via
          inline styles set from the bot's data payload.
          ========================================================= */
-      .cw-banner {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin: 10px 12px;
-        padding: 12px 14px;
-        background-color: #e6f6ec;          /* light mint green */
-        border: 1px solid #cde9d8;
-        border-radius: 10px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, Helvetica, Arial, sans-serif;
-        box-sizing: border-box;
-        animation: cw-banner-in 240ms ease-out;
+    .cw-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 10px 12px;
+      padding: 12px 14px;
+      background-color: #e6f6ec;
+      /* light mint green */
+      border: 1px solid #cde9d8;
+      border-radius: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      box-sizing: border-box;
+      animation: cw-banner-in 240ms ease-out;
+    }
+
+    @keyframes cw-banner-in {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
       }
 
-      @keyframes cw-banner-in {
-        from { opacity: 0; transform: translateY(-6px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
-      .cw-banner__icon {
-        flex: 0 0 auto;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.06);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;                   /* clips the image to the circle */
-      }
-
-      .cw-banner__icon svg {
-        width: 18px;
-        height: 18px;
-        display: block;
-      }
-
-      /* Optional image: fills the circular media slot. */
-      .cw-banner__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .cw-banner__text {
-        flex: 1 1 auto;
-        align-self: center;
-        font-size: 13.5px;
-        line-height: 1.4;
-        color: #234c38;                     /* dark green-grey */
-        word-break: break-word;
-      }
-
-      .cw-banner__label {
-        font-weight: 700;
-      }
-
-      .cw-banner__text strong {
-        font-weight: 700;
-      }
-
-      .cw-banner__action {
-        flex: 0 0 auto;
-        align-self: center;
-        color: #1d6b4a;                     /* teal-green link */
-        font-size: 13.5px;
-        font-weight: 600;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        cursor: pointer;
-        white-space: nowrap;
-        background: none;
-        border: none;
-        /* Touch-friendly: 44px min tap target (Apple/WCAG guidance). */
-        min-height: 44px;
-        min-width: 44px;
-        padding: 0 4px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .cw-banner__action:hover {
-        opacity: 0.8;
-      }
-
-      /* Optional dismiss (X) button. */
-      .cw-banner__close {
-        flex: 0 0 auto;
-        align-self: flex-start;
-        margin: -4px -4px 0 0;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: inherit;
-        opacity: 0.55;
-        /* Touch-friendly 44px target with a visually smaller glyph. */
-        width: 44px;
-        height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .cw-banner__close:hover {
+      to {
         opacity: 1;
-        background-color: rgba(0, 0, 0, 0.06);
+        transform: translateY(0);
+      }
+    }
+
+    .cw-banner__icon {
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      /* clips the image to the circle */
+    }
+
+    .cw-banner__icon svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    /* Optional image: fills the circular media slot. */
+    .cw-banner__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cw-banner__text {
+      flex: 1 1 auto;
+      align-self: center;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: #234c38;
+      /* dark green-grey */
+      word-break: break-word;
+    }
+
+    .cw-banner__label {
+      font-weight: 700;
+    }
+
+    .cw-banner__text strong {
+      font-weight: 700;
+    }
+
+    .cw-banner__action {
+      flex: 0 0 auto;
+      align-self: center;
+      color: #1d6b4a;
+      /* teal-green link */
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      white-space: nowrap;
+      background: none;
+      border: none;
+      /* Touch-friendly: 44px min tap target (Apple/WCAG guidance). */
+      min-height: 44px;
+      min-width: 44px;
+      padding: 0 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cw-banner__action:hover {
+      opacity: 0.8;
+    }
+
+    /* Optional dismiss (X) button. */
+    .cw-banner__close {
+      flex: 0 0 auto;
+      align-self: flex-start;
+      margin: -4px -4px 0 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+      opacity: 0.55;
+      /* Touch-friendly 44px target with a visually smaller glyph. */
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cw-banner__close:hover {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .cw-banner__close svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .cw-banner--closing {
+      animation: cw-banner-out 180ms ease-in forwards;
+    }
+
+    @keyframes cw-banner-out {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 160px;
       }
 
-      .cw-banner__close svg {
-        width: 16px;
-        height: 16px;
-        display: block;
+      to {
+        opacity: 0;
+        transform: translateY(-6px);
+        max-height: 0;
+        margin: 0 12px;
+        padding: 0 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 1. Load the webchat.js bundle -->
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+
+  <script>
+    /* =========================================================
+       Banner controller
+       ========================================================= */
+    const ChatBanner = (() => {
+      // Default copy + styling. Every field is overridable from the
+      // bot's data payload (see the Configuration reference).
+      const DEFAULTS = {
+        // --- content ---
+        label: "Savings alert:",          // bold lead-in (set "" to omit)
+        // `message` supports two ways to bold text:
+        //   - **double asterisks** around any words
+        //   - the {amount} token, replaced with `amount` and bolded
+        message: "We found a way to save you {amount} on your current VA loan",
+        amount: "$200/mo",
+
+        // --- action ---
+        actionLabel: "View",              // set "" to hide the action
+        actionText: "View savings",       // postback sent to the bot on click
+        link: null,                       // optional URL; if set the action
+        linkTarget: "_blank",             //   opens it as a link
+        // --- media ---
+        imageUrl: null,                   // optional image (replaces the icon)
+
+        // --- styling ---
+        backgroundColor: null,            // e.g. "#e6f6ec"
+        borderColor: null,                // e.g. "#cde9d8"
+        textColor: null,                  // e.g. "#234c38"
+        accentColor: null,                // icon + action color, e.g. "#1d6b4a"
+
+        // --- behavior ---
+        dismissible: false,               // show an X so the user can close it
+        dismissOnAction: false,           // auto-close after the action click
+      };
+
+      const BANNER_ID = "cw-banner";
+      // Per-session persistence. localStorage keeps the banner alive across
+      // minimize/restore (and full page reloads) until the user closes the
+      // chat. Swap to sessionStorage if you don't want it surviving reloads.
+      const STORAGE_KEY = "cw-banner-state";
+      let webchatRef = null;
+
+      function setWebchat(wc) {
+        webchatRef = wc;
       }
 
-      .cw-banner--closing {
-        animation: cw-banner-out 180ms ease-in forwards;
+      /* ---- persisted "showBanner" state ---------------------- */
+      function saveState(cfg) {
+        try {
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({ showBanner: true, cfg: cfg })
+          );
+        } catch (e) {
+          /* storage unavailable (private mode / blocked); ignore */
+        }
       }
 
-      @keyframes cw-banner-out {
-        from { opacity: 1; transform: translateY(0); max-height: 160px; }
-        to   { opacity: 0; transform: translateY(-6px); max-height: 0;
-               margin: 0 12px; padding: 0 14px; }
+      function clearState() {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {
+          /* ignore */
+        }
       }
-    </style>
-  </head>
 
-  <body>
-    <!-- 1. Load the webchat.js bundle -->
-    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
-
-    <script>
-      /* =========================================================
-         Banner controller
-         ========================================================= */
-      const ChatBanner = (() => {
-        // Default copy + styling. Every field is overridable from the
-        // bot's data payload (see the Configuration reference).
-        const DEFAULTS = {
-          // --- content ---
-          label: "Savings alert:",          // bold lead-in (set "" to omit)
-          // `message` supports two ways to bold text:
-          //   - **double asterisks** around any words
-          //   - the {amount} token, replaced with `amount` and bolded
-          message: "We found a way to save you {amount} on your current VA loan",
-          amount: "$200/mo",
-
-          // --- action ---
-          actionLabel: "View",              // set "" to hide the action
-          actionText: "View savings",       // postback sent to the bot on click
-          link: null,                       // optional URL; if set the action
-          linkTarget: "_blank",             //   opens it as a link
-          // --- media ---
-          imageUrl: null,                   // optional image (replaces the icon)
-
-          // --- styling ---
-          backgroundColor: null,            // e.g. "#e6f6ec"
-          borderColor: null,                // e.g. "#cde9d8"
-          textColor: null,                  // e.g. "#234c38"
-          accentColor: null,                // icon + action color, e.g. "#1d6b4a"
-
-          // --- behavior ---
-          dismissible: false,               // show an X so the user can close it
-          dismissOnAction: false,           // auto-close after the action click
-        };
-
-        const BANNER_ID = "cw-banner";
-        // Per-session persistence. localStorage keeps the banner alive across
-        // minimize/restore (and full page reloads) until the user closes the
-        // chat. Swap to sessionStorage if you don't want it surviving reloads.
-        const STORAGE_KEY = "cw-banner-state";
-        let webchatRef = null;
-
-        function setWebchat(wc) {
-          webchatRef = wc;
-        }
-
-        /* ---- persisted "showBanner" state ---------------------- */
-        function saveState(cfg) {
-          try {
-            localStorage.setItem(
-              STORAGE_KEY,
-              JSON.stringify({ showBanner: true, cfg: cfg })
-            );
-          } catch (e) {
-            /* storage unavailable (private mode / blocked); ignore */
-          }
-        }
-
-        function clearState() {
-          try {
-            localStorage.removeItem(STORAGE_KEY);
-          } catch (e) {
-            /* ignore */
-          }
-        }
-
-        function getState() {
-          try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            return raw ? JSON.parse(raw) : null;
-          } catch (e) {
-            return null;
-          }
-        }
-
-        // Find the host node we inject into. We deliberately target the
-        // STABLE ids/classes ("webchat-" prefixed), never the hashed
-        // "cognigy-webchat-xxxxx" classes which change between builds.
-        function findHost() {
-          const history = document.getElementById("webchatChatHistory");
-          if (history && history.parentElement) {
-            return { parent: history.parentElement, before: history };
-          }
-          const fallback = document.querySelector(".webchat-chat-history");
-          if (fallback && fallback.parentElement) {
-            return { parent: fallback.parentElement, before: fallback };
-          }
+      function getState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) {
           return null;
         }
+      }
 
-        // Parse a message string into DOM nodes, bolding any **double
-        // asterisk** segments. The {amount} token is substituted first.
-        function appendFormatted(container, message, amount) {
-          const withAmount = String(message).replace(
-            /\{amount\}/g,
-            "**" + (amount || "") + "**"
-          );
-          // Odd-indexed split segments sit between ** pairs -> bold.
-          withAmount.split("**").forEach((seg, i) => {
-            if (i % 2 === 1) {
-              const strong = document.createElement("strong");
-              strong.textContent = seg;
-              container.appendChild(strong);
-            } else if (seg) {
-              container.appendChild(document.createTextNode(seg));
-            }
-          });
+      // Find the host node we inject into. We deliberately target the
+      // STABLE ids/classes ("webchat-" prefixed), never the hashed
+      // "cognigy-webchat-xxxxx" classes which change between builds.
+      function findHost() {
+        const history = document.getElementById("webchatChatHistory");
+        if (history && history.parentElement) {
+          return { parent: history.parentElement, before: history };
         }
+        const fallback = document.querySelector(".webchat-chat-history");
+        if (fallback && fallback.parentElement) {
+          return { parent: fallback.parentElement, before: fallback };
+        }
+        return null;
+      }
 
-        function buildBanner(cfg) {
-          const banner = document.createElement("div");
-          banner.id = BANNER_ID;
-          banner.className = "cw-banner";
-          banner.setAttribute("role", "status");
+      // Parse a message string into DOM nodes, bolding any **double
+      // asterisk** segments. The {amount} token is substituted first.
+      function appendFormatted(container, message, amount) {
+        const withAmount = String(message).replace(
+          /\{amount\}/g,
+          "**" + (amount || "") + "**"
+        );
+        // Odd-indexed split segments sit between ** pairs -> bold.
+        withAmount.split("**").forEach((seg, i) => {
+          if (i % 2 === 1) {
+            const strong = document.createElement("strong");
+            strong.textContent = seg;
+            container.appendChild(strong);
+          } else if (seg) {
+            container.appendChild(document.createTextNode(seg));
+          }
+        });
+      }
 
-          // Per-banner styling (overrides the CSS defaults).
-          if (cfg.backgroundColor) banner.style.backgroundColor = cfg.backgroundColor;
-          if (cfg.borderColor) banner.style.borderColor = cfg.borderColor;
-          if (cfg.textColor) banner.style.color = cfg.textColor;
+      function buildBanner(cfg) {
+        const banner = document.createElement("div");
+        banner.id = BANNER_ID;
+        banner.className = "cw-banner";
+        banner.setAttribute("role", "status");
 
-          // --- media: image if supplied, else the default trend icon ---
-          const media = document.createElement("div");
-          media.className = "cw-banner__icon";
-          if (cfg.imageUrl) {
-            const img = document.createElement("img");
-            img.className = "cw-banner__img";
-            img.src = cfg.imageUrl;
-            img.alt = "";
-            media.appendChild(img);
-          } else {
-            const stroke = cfg.accentColor || "#1d6b4a";
-            media.innerHTML = `
+        // Per-banner styling (overrides the CSS defaults).
+        if (cfg.backgroundColor) banner.style.backgroundColor = cfg.backgroundColor;
+        if (cfg.borderColor) banner.style.borderColor = cfg.borderColor;
+        if (cfg.textColor) banner.style.color = cfg.textColor;
+
+        // --- media: image if supplied, else the default trend icon ---
+        const media = document.createElement("div");
+        media.className = "cw-banner__icon";
+        if (cfg.imageUrl) {
+          const img = document.createElement("img");
+          img.className = "cw-banner__img";
+          img.src = cfg.imageUrl;
+          img.alt = "";
+          media.appendChild(img);
+        } else {
+          const stroke = cfg.accentColor || "#1d6b4a";
+          media.innerHTML = `
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"
                    xmlns="http://www.w3.org/2000/svg">
                 <path d="M3 7l6 6 4-4 8 8" stroke="${stroke}"
@@ -296,187 +318,188 @@
                       stroke-width="2" stroke-linecap="round"
                       stroke-linejoin="round"/>
               </svg>`;
+        }
+
+        // --- text ---
+        const text = document.createElement("div");
+        text.className = "cw-banner__text";
+
+        if (cfg.label) {
+          const label = document.createElement("span");
+          label.className = "cw-banner__label";
+          label.textContent = cfg.label + " ";
+          text.appendChild(label);
+        }
+        appendFormatted(text, cfg.message, cfg.amount);
+
+        banner.appendChild(media);
+        banner.appendChild(text);
+
+        // --- action (link or postback) ---
+        if (cfg.actionLabel) {
+          const action = document.createElement(cfg.link ? "a" : "button");
+          action.className = "cw-banner__action";
+          action.textContent = cfg.actionLabel;
+          if (cfg.accentColor) action.style.color = cfg.accentColor;
+          if (cfg.link) {
+            action.href = cfg.link;
+            action.target = cfg.linkTarget || "_blank";
+            action.rel = "noopener noreferrer";
+          } else {
+            action.type = "button";
           }
+          action.addEventListener("click", () => onAction(cfg));
+          banner.appendChild(action);
+        }
 
-          // --- text ---
-          const text = document.createElement("div");
-          text.className = "cw-banner__text";
-
-          if (cfg.label) {
-            const label = document.createElement("span");
-            label.className = "cw-banner__label";
-            label.textContent = cfg.label + " ";
-            text.appendChild(label);
-          }
-          appendFormatted(text, cfg.message, cfg.amount);
-
-          banner.appendChild(media);
-          banner.appendChild(text);
-
-          // --- action (link or postback) ---
-          if (cfg.actionLabel) {
-            const action = document.createElement(cfg.link ? "a" : "button");
-            action.className = "cw-banner__action";
-            action.textContent = cfg.actionLabel;
-            if (cfg.accentColor) action.style.color = cfg.accentColor;
-            if (cfg.link) {
-              action.href = cfg.link;
-              action.target = cfg.linkTarget || "_blank";
-              action.rel = "noopener noreferrer";
-            } else {
-              action.type = "button";
-            }
-            action.addEventListener("click", () => onAction(cfg));
-            banner.appendChild(action);
-          }
-
-          // --- optional dismiss (X) ---
-          if (cfg.dismissible) {
-            const close = document.createElement("button");
-            close.type = "button";
-            close.className = "cw-banner__close";
-            close.setAttribute("aria-label", "Dismiss");
-            close.innerHTML = `
+        // --- optional dismiss (X) ---
+        if (cfg.dismissible) {
+          const close = document.createElement("button");
+          close.type = "button";
+          close.className = "cw-banner__close";
+          close.setAttribute("aria-label", "Dismiss");
+          close.innerHTML = `
               <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"
                    xmlns="http://www.w3.org/2000/svg">
                 <path d="M3 3l10 10M13 3L3 13" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round"/>
               </svg>`;
-            close.addEventListener("click", () => remove());
-            banner.appendChild(close);
-          }
-
-          return banner;
+          close.addEventListener("click", () => remove());
+          banner.appendChild(close);
         }
 
-        function onAction(cfg) {
-          // Notify the bot (a flow can branch on bannerAction). A link, if
-          // present, navigates natively via the <a> element.
-          if (
-            cfg.actionText &&
-            webchatRef &&
-            typeof webchatRef.sendMessage === "function"
-          ) {
-            webchatRef.sendMessage(cfg.actionText, { bannerAction: true });
-          }
-          if (cfg.dismissOnAction) remove();
+        return banner;
+      }
+
+      function onAction(cfg) {
+        // Notify the bot (a flow can branch on bannerAction). A link, if
+        // present, navigates natively via the <a> element.
+        if (
+          cfg.actionText &&
+          webchatRef &&
+          typeof webchatRef.sendMessage === "function"
+        ) {
+          webchatRef.sendMessage(cfg.actionText, { bannerAction: true });
         }
+        if (cfg.dismissOnAction) remove();
+      }
 
-        // Inject the banner into the DOM with the given (fully-merged) cfg.
-        // Pure DOM work; does NOT touch persisted state.
-        function render(cfg) {
-          // Already showing? Replace it so content stays fresh.
-          const existing = document.getElementById(BANNER_ID);
-          if (existing) existing.remove();
+      // Inject the banner into the DOM with the given (fully-merged) cfg.
+      // Pure DOM work; does NOT touch persisted state.
+      function render(cfg) {
+        // Already showing? Replace it so content stays fresh.
+        const existing = document.getElementById(BANNER_ID);
+        if (existing) existing.remove();
 
-          const host = findHost();
-          if (!host) {
-            // Webchat DOM not ready yet; observe and retry once.
-            waitForHost(() => render(cfg));
-            return;
-          }
-          const banner = buildBanner(cfg);
-          host.parent.insertBefore(banner, host.before);
+        const host = findHost();
+        if (!host) {
+          // Webchat DOM not ready yet; observe and retry once.
+          waitForHost(() => render(cfg));
+          return;
         }
+        const banner = buildBanner(cfg);
+        host.parent.insertBefore(banner, host.before);
+      }
 
-        // Public: invoked by the bot's data message. Persists + renders.
-        function show(overrides) {
-          const cfg = Object.assign({}, DEFAULTS, overrides || {});
-          saveState(cfg);
-          render(cfg);
+      // Public: invoked by the bot's data message. Persists + renders.
+      function show(overrides) {
+        const cfg = Object.assign({}, DEFAULTS, overrides || {});
+        saveState(cfg);
+        render(cfg);
+      }
+
+      // Public: re-inject from persisted state, e.g. when the window is
+      // reopened after a minimize. No-op if the banner was never invoked
+      // (or was dismissed/closed).
+      function restore() {
+        const state = getState();
+        if (state && state.showBanner) {
+          render(Object.assign({}, DEFAULTS, state.cfg || {}));
         }
+      }
 
-        // Public: re-inject from persisted state, e.g. when the window is
-        // reopened after a minimize. No-op if the banner was never invoked
-        // (or was dismissed/closed).
-        function restore() {
-          const state = getState();
-          if (state && state.showBanner) {
-            render(Object.assign({}, DEFAULTS, state.cfg || {}));
-          }
-        }
+      // Public: permanently dismiss. Clears persisted state so it does NOT
+      // come back on reopen.
+      function remove() {
+        clearState();
+        const el = document.getElementById(BANNER_ID);
+        if (!el) return;
+        el.classList.add("cw-banner--closing");
+        el.addEventListener("animationend", () => el.remove(), {
+          once: true,
+        });
+      }
 
-        // Public: permanently dismiss. Clears persisted state so it does NOT
-        // come back on reopen.
-        function remove() {
-          clearState();
-          const el = document.getElementById(BANNER_ID);
-          if (!el) return;
-          el.classList.add("cw-banner--closing");
-          el.addEventListener("animationend", () => el.remove(), {
-            once: true,
-          });
-        }
-
-        // If the chat DOM hasn't mounted yet, wait for it.
-        function waitForHost(cb) {
-          if (findHost()) return cb();
-          const obs = new MutationObserver(() => {
-            if (findHost()) {
-              obs.disconnect();
-              cb();
-            }
-          });
-          obs.observe(document.body, { childList: true, subtree: true });
-          // Safety timeout so we don't observe forever.
-          setTimeout(() => obs.disconnect(), 15000);
-        }
-
-        return { show, remove, restore, setWebchat };
-      })();
-      const ENDPOINT_URL = "https://endpoint-trial.cognigy.ai/9416598671810ccd3188217ddf2a845c7252f6242e6d5e7cd8b5f14d17a41277"
-
-      /* =========================================================
-         Webchat init + Analytics hook
-         ========================================================= */
-      initWebchat(
-        ENDPOINT_URL
-      ).then((webchat) => {
-        window.webchat = webchat;
-        ChatBanner.setWebchat(webchat);
-
-        webchat.registerAnalyticsService((event) => {
-          switch (event.type) {
-            case "webchat/incoming-message": {
-              // A data-only message carries its payload under `data`.
-              const data = event.payload && event.payload.data;
-              if (!data) return;
-
-              if (data.invokeBanner === true) {
-                // `data.banner` (optional) overrides any of the fields in
-                // DEFAULTS: content, link, imageUrl, colors, dismissible.
-                ChatBanner.show(data.banner);
-              } else if (data.invokeBanner === false) {
-                ChatBanner.remove();
-              }
-              return;
-            }
-
-            case "webchat/open":
-              // Window (re)opened: if the banner was invoked earlier and not
-              // dismissed, the DOM was torn down on minimize, so re-inject it.
-              ChatBanner.restore();
-              return;
-
-            case "webchat/close":
-              // User closed the chat: stop showing the banner from now on.
-              ChatBanner.remove();
-              return;
-
-            // webchat/minimize: do nothing. We keep the persisted "showBanner"
-            // state so the banner returns the next time the window opens.
-            default:
-              return;
+      // If the chat DOM hasn't mounted yet, wait for it.
+      function waitForHost(cb) {
+        if (findHost()) return cb();
+        const obs = new MutationObserver(() => {
+          if (findHost()) {
+            obs.disconnect();
+            cb();
           }
         });
+        obs.observe(document.body, { childList: true, subtree: true });
+        // Safety timeout so we don't observe forever.
+        setTimeout(() => obs.disconnect(), 15000);
+      }
 
-        // The very first "webchat/open" can fire before this handler is
-        // registered, so attempt a restore once on init too.
-        ChatBanner.restore();
+      return { show, remove, restore, setWebchat };
+    })();
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
+
+    /* =========================================================
+       Webchat init + Analytics hook
+       ========================================================= */
+    initWebchat(
+      ENDPOINT_URL
+    ).then((webchat) => {
+      window.webchat = webchat;
+      ChatBanner.setWebchat(webchat);
+
+      webchat.registerAnalyticsService((event) => {
+        switch (event.type) {
+          case "webchat/incoming-message": {
+            // A data-only message carries its payload under `data`.
+            const data = event.payload && event.payload.data;
+            if (!data) return;
+
+            if (data.invokeBanner === true) {
+              // `data.banner` (optional) overrides any of the fields in
+              // DEFAULTS: content, link, imageUrl, colors, dismissible.
+              ChatBanner.show(data.banner);
+            } else if (data.invokeBanner === false) {
+              ChatBanner.remove();
+            }
+            return;
+          }
+
+          case "webchat/open":
+            // Window (re)opened: if the banner was invoked earlier and not
+            // dismissed, the DOM was torn down on minimize, so re-inject it.
+            ChatBanner.restore();
+            return;
+
+          case "webchat/close":
+            // User closed the chat: stop showing the banner from now on.
+            ChatBanner.remove();
+            return;
+
+          // webchat/minimize: do nothing. We keep the persisted "showBanner"
+          // state so the banner returns the next time the window opens.
+          default:
+            return;
+        }
       });
 
-      // Exposed for manual testing from the browser console.
-      window.ChatBanner = ChatBanner;
-    </script>
-  </body>
+      // The very first "webchat/open" can fire before this handler is
+      // registered, so attempt a restore once on init too.
+      ChatBanner.restore();
+    });
+
+    // Exposed for manual testing from the browser console.
+    window.ChatBanner = ChatBanner;
+  </script>
+</body>
+
 </html>

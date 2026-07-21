@@ -1,163 +1,165 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Language Flag Dropdown</title>
-    <meta charset="UTF-8" />
-    <style>
-      /* Shared header-button look */
-      button.language-dropdown {
-        margin: 0px !important;
-        padding: 8px;
-        box-sizing: border-box;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        transition: background-color 0.1s ease-out 0s, color 0.1s ease-out 0s,
-          fill 0.1s ease-out 0s;
-        color: rgba(0, 0, 0, 0.95);
-        fill: rgba(0, 0, 0, 0.95);
-        border-radius: 50%;
-        -webkit-appearance: button;
-        appearance: button;
-        cursor: pointer;
-      }
 
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
+<head>
+  <title>Language Flag Dropdown</title>
+  <meta charset="UTF-8" />
+  <style>
+    /* Shared header-button look */
+    button.language-dropdown {
+      margin: 0px !important;
+      padding: 8px;
+      box-sizing: border-box;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      transition: background-color 0.1s ease-out 0s, color 0.1s ease-out 0s,
+        fill 0.1s ease-out 0s;
+      color: rgba(0, 0, 0, 0.95);
+      fill: rgba(0, 0, 0, 0.95);
+      border-radius: 50%;
+      -webkit-appearance: button;
+      appearance: button;
+      cursor: pointer;
+    }
 
-      .dropdown-content {
-        display: none;
-        /* Positioned relative to the viewport (via JS) instead of the header
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      /* Positioned relative to the viewport (via JS) instead of the header
            bar, so it can't be clipped or stacked under the webchat history. */
-        position: fixed;
-        background-color: #f1f1f1;
-        min-width: 22px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 2147483647;
-      }
+      position: fixed;
+      background-color: #f1f1f1;
+      min-width: 22px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 2147483647;
+    }
 
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
 
-      .dropdown-content a:hover {
-        background-color: #ddd;
-      }
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
 
-      .dropdown-content.open {
-        display: block;
-      }
-    </style>
-  </head>
+    .dropdown-content.open {
+      display: block;
+    }
+  </style>
+</head>
 
-  <body>
-    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
-    <script>
-    const ENDPOINT_URL = "https://endpoint-trial.cognigy.ai/9416598671810ccd3188217ddf2a845c7252f6242e6d5e7cd8b5f14d17a41277"
+<body>
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+  <script>
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
 
-      // Detect the initial language from the browser, falling back to en-US.
-      var currentLanguage = navigator.language || navigator.userLanguage;
-      if (currentLanguage.startsWith("en")) {
-        currentLanguage = "en-US";
-      } else if (currentLanguage.startsWith("de")) {
-        currentLanguage = "de-DE";
-      } else {
-        currentLanguage = "en-US";
-      }
+    // Detect the initial language from the browser, falling back to en-US.
+    var currentLanguage = navigator.language || navigator.userLanguage;
+    if (currentLanguage.startsWith("en")) {
+      currentLanguage = "en-US";
+    } else if (currentLanguage.startsWith("de")) {
+      currentLanguage = "de-DE";
+    } else {
+      currentLanguage = "en-US";
+    }
 
-      // Tell the bot which language to switch to and update the flag icon.
-      function changeLanguage(newLanguage) {
-        window.cognigyWebchat.sendMessage("", {
-          changeLanguage: true,
-          language: newLanguage,
-        });
-        currentLanguage = newLanguage;
-
-        var languageDropdownButton = document.querySelector(
-          "#language-dropdown .language-dropdown"
-        );
-        languageDropdownButton.innerHTML = `<object data="./flags/${currentLanguage}.svg" type="image/svg+xml" width="22" height="22" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16"></object>`;
-
-        return;
-      }
-
-      const settings = {
-        // Pass the detected language to the bot on session start.
-        getStartedData: { language: currentLanguage },
-      };
-
-      initWebchat(ENDPOINT_URL, { settings }).then((webchat) => {
-        window.cognigyWebchat = webchat;
+    // Tell the bot which language to switch to and update the flag icon.
+    function changeLanguage(newLanguage) {
+      window.cognigyWebchat.sendMessage("", {
+        changeLanguage: true,
+        language: newLanguage,
       });
+      currentLanguage = newLanguage;
 
-      // Inject the language dropdown into the header bar whenever it appears.
-      let observer = new MutationObserver(() => {
-        let headerbarSearchResults =
-          document.getElementsByClassName("webchat-header-bar");
-        if (!headerbarSearchResults.length) return;
+      var languageDropdownButton = document.querySelector(
+        "#language-dropdown .language-dropdown"
+      );
+      languageDropdownButton.innerHTML = `<object data="./flags/${currentLanguage}.svg" type="image/svg+xml" width="22" height="22" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16"></object>`;
 
-        let headerbar = headerbarSearchResults.item(0);
-        if (document.getElementById("language-dropdown")) return; // already created
+      return;
+    }
 
-        var languageDropdown = document.createElement("button");
-        languageDropdown.id = "language-dropdown";
-        languageDropdown.className = "language-dropdown";
-        languageDropdown.ariaLabel = "Language Dropdown";
-        languageDropdown.innerHTML = `<div class="dropdown">
+    const settings = {
+      // Pass the detected language to the bot on session start.
+      getStartedData: { language: currentLanguage },
+    };
+
+    initWebchat(ENDPOINT_URL, { settings }).then((webchat) => {
+      window.cognigyWebchat = webchat;
+    });
+
+    // Inject the language dropdown into the header bar whenever it appears.
+    let observer = new MutationObserver(() => {
+      let headerbarSearchResults =
+        document.getElementsByClassName("webchat-header-bar");
+      if (!headerbarSearchResults.length) return;
+
+      let headerbar = headerbarSearchResults.item(0);
+      if (document.getElementById("language-dropdown")) return; // already created
+
+      var languageDropdown = document.createElement("button");
+      languageDropdown.id = "language-dropdown";
+      languageDropdown.className = "language-dropdown";
+      languageDropdown.ariaLabel = "Language Dropdown";
+      languageDropdown.innerHTML = `<div class="dropdown">
           <button class="language-dropdown"><object data="./flags/${currentLanguage}.svg" type="image/svg+xml" width="22" height="22" class="language" viewBox="0 0 16 16"></object></button>
           <div class="dropdown-content">
             <a data-language="en-US" onclick='return changeLanguage("en-US")'><object data="./flags/en-US.svg" type="image/svg+xml" width="22" height="22" class="flag-icon-us" viewBox="0 0 16 16" style="pointer-events: none;"></object></a>
             <a data-language="de-DE" onclick='return changeLanguage("de-DE")'><object data="./flags/de-DE.svg" type="image/svg+xml" width="22" height="22" class="flag-icons-de" viewBox="0 0 16 16" style="pointer-events: none;"></object></a>
           </div>
         </div>`;
-        headerbar.insertBefore(languageDropdown, headerbar.childNodes[2]);
+      headerbar.insertBefore(languageDropdown, headerbar.childNodes[2]);
 
-        // Move the menu out of the webchat DOM entirely and onto <body>. A
-        // `position: fixed` element is still trapped if any ancestor has a
-        // `transform`/`filter`/`perspective` (which makes that ancestor its
-        // containing block), so re-parenting to <body> is the only reliable
-        // way to escape the webchat's clipping/stacking context.
-        var dropdown = languageDropdown.querySelector(".dropdown");
-        var trigger = dropdown.querySelector(".language-dropdown");
-        var content = dropdown.querySelector(".dropdown-content");
-        document.body.appendChild(content);
+      // Move the menu out of the webchat DOM entirely and onto <body>. A
+      // `position: fixed` element is still trapped if any ancestor has a
+      // `transform`/`filter`/`perspective` (which makes that ancestor its
+      // containing block), so re-parenting to <body> is the only reliable
+      // way to escape the webchat's clipping/stacking context.
+      var dropdown = languageDropdown.querySelector(".dropdown");
+      var trigger = dropdown.querySelector(".language-dropdown");
+      var content = dropdown.querySelector(".dropdown-content");
+      document.body.appendChild(content);
 
-        function positionContent() {
-          var rect = trigger.getBoundingClientRect();
-          content.style.top = rect.bottom + "px";
-          content.style.left = rect.left + "px";
-        }
+      function positionContent() {
+        var rect = trigger.getBoundingClientRect();
+        content.style.top = rect.bottom + "px";
+        content.style.left = rect.left + "px";
+      }
 
-        // The trigger and the menu are now separate DOM subtrees, so hover has
-        // to be tracked on both, with a small grace delay so moving the pointer
-        // from one to the other doesn't close the menu.
-        var closeTimer;
-        function open() {
-          clearTimeout(closeTimer);
-          positionContent();
-          content.classList.add("open");
-        }
-        function scheduleClose() {
-          closeTimer = setTimeout(function () {
-            content.classList.remove("open");
-          }, 150);
-        }
+      // The trigger and the menu are now separate DOM subtrees, so hover has
+      // to be tracked on both, with a small grace delay so moving the pointer
+      // from one to the other doesn't close the menu.
+      var closeTimer;
+      function open() {
+        clearTimeout(closeTimer);
+        positionContent();
+        content.classList.add("open");
+      }
+      function scheduleClose() {
+        closeTimer = setTimeout(function () {
+          content.classList.remove("open");
+        }, 150);
+      }
 
-        trigger.addEventListener("mouseenter", open);
-        trigger.addEventListener("mouseleave", scheduleClose);
-        content.addEventListener("mouseenter", open);
-        content.addEventListener("mouseleave", scheduleClose);
-      });
+      trigger.addEventListener("mouseenter", open);
+      trigger.addEventListener("mouseleave", scheduleClose);
+      content.addEventListener("mouseenter", open);
+      content.addEventListener("mouseleave", scheduleClose);
+    });
 
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-    </script>
-  </body>
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  </script>
+</body>
+
 </html>
