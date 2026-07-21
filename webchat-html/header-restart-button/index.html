@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Header Restart Button</title>
+    <meta charset="UTF-8" />
+    <style>
+      button.restart-button {
+        margin: 0px !important;
+        padding: 8px;
+        box-sizing: border-box;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        transition: background-color 0.1s ease-out 0s, color 0.1s ease-out 0s,
+          fill 0.1s ease-out 0s;
+        color: rgba(0, 0, 0, 0.95);
+        fill: rgba(0, 0, 0, 0.95);
+        border-radius: 50%;
+        -webkit-appearance: button;
+        appearance: button;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+    <script>
+      //const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
+      const ENDPOINT_URL = "https://endpoint-trial.cognigy.ai/9416598671810ccd3188217ddf2a845c7252f6242e6d5e7cd8b5f14d17a41277"
+
+      // Starts a new session and sends a restart message to the bot.
+      function restart() {
+        window.cognigyWebchat.endSession();
+        window.cognigyWebchat.sendMessage("Neustart"); // Change the message based on what your bot listens for
+        return;
+      }
+
+      initWebchat(ENDPOINT_URL).then((webchat) => {
+        window.cognigyWebchat = webchat;
+      });
+
+      // Inject the restart button into the header bar whenever it appears.
+      let observer = new MutationObserver(() => {
+        let headerbarSearchResults =
+          document.getElementsByClassName("webchat-header-bar");
+        if (!headerbarSearchResults.length) return;
+
+        let headerbar = headerbarSearchResults.item(0);
+        if (document.getElementById("restart-button")) return; // already created
+
+        var restartButton = document.createElement("button");
+        restartButton.id = "restart-button";
+        restartButton.className = "restart-button";
+        restartButton.ariaLabel = "Restart";
+        // icon taken from getbootstrap
+        restartButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+        </svg>`;
+        restartButton.setAttribute("onclick", "restart()");
+        headerbar.insertBefore(restartButton, headerbar.childNodes[2]);
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    </script>
+  </body>
+</html>

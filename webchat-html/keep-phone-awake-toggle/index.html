@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Keep Phone Awake Toggle</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    html {
+      background-color: #eee;
+      min-height: 100%;
+      min-width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+
+  <style>
+    /* Wake lock toggle */
+    .wakelock-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px;
+      background: transparent !important;
+      border: none;
+      outline: none;
+    }
+
+    .wakelock-switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .wakelock-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .wakelock-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.25);
+      transition: 0.2s;
+      border-radius: 22px;
+    }
+
+    .wakelock-slider::before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #fff;
+      transition: 0.2s;
+      border-radius: 50%;
+    }
+
+    .wakelock-switch input:checked+.wakelock-slider {
+      background-color: #09ec4d;
+    }
+
+    .wakelock-switch input:checked+.wakelock-slider::before {
+      transform: translateX(18px);
+    }
+
+    .wakelock-label {
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.95);
+      user-select: none;
+    }
+  </style>
+
+  <script>
+    const ENDPOINT_URL = "https://endpoint-trial.cognigy.ai/9416598671810ccd3188217ddf2a845c7252f6242e6d5e7cd8b5f14d17a41277"
+
+    // ----- Screen Wake Lock -----
+    let wakeLockSentinel = null;
+
+    // Only show the toggle on touch-primary devices (phones/tablets),
+    // where the screen auto-sleeping mid-conversation is a real annoyance.
+    function isTouchPrimary() {
+      return (
+        window.matchMedia("(pointer: coarse)").matches &&
+        window.matchMedia("(hover: none)").matches
+      );
+    }
+
+    async function requestWakeLock() {
+      if (!("wakeLock" in navigator)) {
+        console.warn("Screen Wake Lock API is not supported in this browser.");
+        return false;
+      }
+      try {
+        wakeLockSentinel = await navigator.wakeLock.request("screen");
+        wakeLockSentinel.addEventListener("release", () => {
+          console.log("Wake lock released");
+        });
+        console.log("Wake lock active");
+        return true;
+      } catch (err) {
+        console.error(`Wake lock request failed: ${err.name}, ${err.message}`);
+        return false;
+      }
+    }
+
+    async function releaseWakeLock() {
+      if (wakeLockSentinel) {
+        try {
+          await wakeLockSentinel.release();
+        } catch (err) {
+          console.error(`Wake lock release failed: ${err.message}`);
+        }
+        wakeLockSentinel = null;
+      }
+    }
+
+    async function toggleWakeLock(enabled) {
+      if (enabled) {
+        const ok = await requestWakeLock();
+        // Reflect actual state back onto the checkbox if the request failed
+        var toggleInput = document.getElementById("wakelock-toggle-input");
+        if (toggleInput && !ok) {
+          toggleInput.checked = false;
+        }
+      } else {
+        await releaseWakeLock();
+      }
+    }
+
+    // Re-acquire the wake lock when the page becomes visible again
+    // (the browser automatically releases it when the tab is hidden).
+    document.addEventListener("visibilitychange", async () => {
+      var toggleInput = document.getElementById("wakelock-toggle-input");
+      if (
+        toggleInput &&
+        toggleInput.checked &&
+        wakeLockSentinel === null &&
+        document.visibilityState === "visible"
+      ) {
+        await requestWakeLock();
+      }
+    });
+
+    // Initialize the Webchat to be displayed on the website
+    initWebchat(ENDPOINT_URL).then((webchat) => {
+      window.cognigyWebchat = webchat;
+
+
+    });
+
+    //constantly check for reopened webchat to add buttons
+    let observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (!mutation.addedNodes) return;
+      });
+
+      let headerbarSearchResults =
+        document.getElementsByClassName("webchat-header-bar");
+      if (headerbarSearchResults.length) {
+        let headerbar = headerbarSearchResults.item(0);
+
+
+        if (document.getElementById("wakelock-toggle")) {
+          //already created
+        } else if (!isTouchPrimary()) {
+          //non-touch device: don't show the toggle
+        } else {
+          var wakeLockToggle = document.createElement("label");
+          wakeLockToggle.id = "wakelock-toggle";
+          wakeLockToggle.className = "wakelock-toggle";
+          wakeLockToggle.title = "Keep screen awake";
+          wakeLockToggle.setAttribute("aria-label", "Keep screen awake");
+          wakeLockToggle.innerHTML = `<span class="wakelock-label">Stay awake</span>
+        <span class="wakelock-switch">
+          <input type="checkbox" id="wakelock-toggle-input" onchange="toggleWakeLock(this.checked)" />
+          <span class="wakelock-slider"></span>
+        </span>`;
+          headerbar.insertBefore(wakeLockToggle, headerbar.childNodes[2]);
+        }
+      } else {
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: false,
+      characterData: false,
+    });
+  </script>
+</body>
+
+</html>

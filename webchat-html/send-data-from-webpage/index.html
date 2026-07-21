@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Send Data from Webpage</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+    <script>
+      // const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
+      const ENDPOINT_URL = "https://endpoint-trial.cognigy.ai/9416598671810ccd3188217ddf2a845c7252f6242e6d5e7cd8b5f14d17a41277"
+
+      // Collect any context from the hosting page that the flow should know
+      // about at the start of the conversation. Everything added here arrives
+      // on the first message as `input.data.<key>` in Cognigy.
+      //
+      // 1. The page path — lets the flow branch on where the chat was opened.
+      const pagePath = window.location.pathname;
+
+      // 2. The page/browser language, normalized to a locale the flow expects.
+      //    Extend the mapping with whatever locales your flow supports.
+      let language = navigator.language || navigator.userLanguage || "en-US";
+      if (language.startsWith("nl")) {
+        language = "nl-NL";
+      } else {
+        language = "en-GB";
+      }
+
+      // Add any other page context you want the flow to receive here.
+      const getStartedData = {
+        url: pagePath,
+        language: language,
+      };
+
+      const settings = {
+        // `getStartedData` is attached to the initial "GET_STARTED" message,
+        // so the flow can read it as `input.data.url`, `input.data.language`,
+        // etc. right at the start of the conversation.
+        getStartedData: getStartedData,
+      };
+
+      initWebchat(ENDPOINT_URL, { settings }).then((webchat) => {
+        window.cognigyWebchat = webchat;
+      });
+    </script>
+  </body>
+</html>
