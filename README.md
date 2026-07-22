@@ -13,7 +13,7 @@ Please note, that Cognigy does not provide enterprise support for developed cust
 ## Installation
 
 1. In an HTML file copy and paste the complete code.
-2. Replace `REPLACE_WITH_YOUR_ENDPOINT` on the `initWebchat(...)` line with your Cognigy endpoint URL.
+2. Replace the `ENDPOINT_URL` constant value (currently `"https://{Cognigy_Base_URL}/{URLToken}"`) with your Cognigy endpoint URL.
 3. Host the file (any static host or your existing site).
 
 If you wish to simply add the function to your existing page simply copy the script from the examples and adjust it to your use-case.
