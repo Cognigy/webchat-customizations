@@ -19,7 +19,7 @@ Unlike the other examples in this repository, this feature has **two halves** th
 
 ### Connection tracking
 
-Cognigy emits `user-connected` and `user-disconnected` events as websockets open and close. The transformer (`index.js`) listens for these in `handleInput` and stores the current state in `sessionStorage.webSocketConnected`.
+Cognigy emits `user-connected` and `user-disconnected` events as websockets open and close. The transformer (`transformer.js`) listens for these in `handleInput` and stores the current state in `sessionStorage.webSocketConnected`.
 
 ### Buffering
 
