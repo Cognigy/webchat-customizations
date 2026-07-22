@@ -8,7 +8,7 @@ This repository contains examples of HTML, CSS and Javascript code to change the
 This repository contains code for [Cognigy Webchat customization](https://docs.cognigy.com/webchat/v3/configuration) which can be used as blueprints for further developments. Therefore, all of them are provided under the [MIT license](./LICENSE).
 
 **Important:** \
-Please note, that Cogngiy does not provide enterprise support for developed customizations. This repository is licensed under MIT, in which the community is responsible for the shared functions. If you found a bug or want to improve yet developed functionalities, please don't hesitate to create a branch.
+Please note, that Cognigy does not provide enterprise support for developed customizations. This repository is licensed under MIT, in which the community is responsible for the shared functions. If you found a bug or want to improve yet developed functionalities, please don't hesitate to create a branch.
 
 ## Installation
 
