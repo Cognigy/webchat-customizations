@@ -29,7 +29,6 @@
       console.log(`User has been inactive for more than ${INACTIVITY_TIMEOUT / 1000} seconds. Sending the inactivity timeout event to the flow`);
     };
 
-    delete localStorage.webchatClosedHandled;
 
     initWebchat(ENDPOINT_URL).then((webchat) => {
       window.cognigyWebchat = webchat;
