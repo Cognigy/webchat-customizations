@@ -7,6 +7,5 @@ This repository is for examples on how to add custom functionality and design to
 - Base changes on the other examples in this repository
 
 ## Functional requirements
-- Every index.html file must include the source for for the webchat.js which is `  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
-`
-- It must also incluse an `initWebchat(ENDPOINT_URL)` function
+- Every index.html file must include the source for webchat.js: `<script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>`
+- It must also include an `initWebchat(ENDPOINT_URL)` call
