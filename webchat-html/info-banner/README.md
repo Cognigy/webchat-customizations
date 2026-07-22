@@ -1,6 +1,6 @@
 # Cognigy In-Chat Banner: Implementation & Usage Guide
 
-![Info bannner example](assets/info-banner-example.png)
+![Info banner example](assets/info-banner-example.png)
 
 
 A reusable, fully data-driven alert banner that renders **inside** the Cognigy  
