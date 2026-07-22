@@ -8,7 +8,6 @@ A Cognigy Webchat customization that injects a static text box — such as a pri
 
 A custom `<div>` is inserted near the top of the chat history so a persistent notice (with an optional link) is always visible to the user. In the example it shows a German data-protection ("Datenschutz") notice, but the content is fully customizable.
 
-#
 
 ## How It Works
 
