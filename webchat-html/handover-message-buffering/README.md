@@ -13,7 +13,7 @@ Unlike the other examples in this repository, this feature has **two halves** th
 | File | Runs where | Responsibility |
 |------|-----------|----------------|
 | `index.html` | Browser (client) | Answers the transformer's `health-check` so a still-open tab isn't mistaken for a disconnected user. |
-| `index.js` | Cognigy Socket Endpoint Transformer (server) | Tracks connection state, buffers agent messages while disconnected, flushes them on reconnect. |
+| `transformer.js` | Cognigy Socket Endpoint Transformer (server) | Tracks connection state, buffers agent messages while disconnected, flushes them on reconnect. |
 
 ## How It Works
 
