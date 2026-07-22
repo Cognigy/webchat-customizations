@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Activate and Deactivate Webchat</title>
+</head>
+
+<body>
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+  <script>
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
+
+    const setWebchatInputVisibility = (visible = true) => {
+      const webchatInputElement = document.querySelector(
+        "[data-cognigy-webchat-root] .webchat-input"
+      );
+
+      if (webchatInputElement) {
+        webchatInputElement.style.display = visible ? "initial" : "none";
+      }
+    };
+
+    initWebchat(ENDPOINT_URL).then((webchat) => {
+      window.cognigyWebchat = webchat;
+
+      // Restore state from localStorage
+      if (localStorage.hideWebchatInput === "true") {
+        setWebchatInputVisibility(false);
+      }
+
+      webchat.registerAnalyticsService((event) => {
+        if (event.type === "webchat/incoming-message") {
+          if (event?.payload?.data?.chatbox_active === false) {
+            setWebchatInputVisibility(false);
+            localStorage.hideWebchatInput = "true";
+          } else if (event?.payload?.data?.chatbox_active === true) {
+            setWebchatInputVisibility(true);
+            delete localStorage.hideWebchatInput;
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

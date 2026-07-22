@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inactivity timer</title>
+</head>
+
+<body>
+  <!-- Cognigy Webchat latest version -->
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+
+  <!-- Beginning of the Cognigy Webchat embedding code -->
+  <script>
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
+
+    // How many milliseconds after the last user message before the webchat conversation expires
+    const INACTIVITY_TIMEOUT = 5 * 1000; // Milliseconds
+
+    let timer;
+    const resetTimer = () => { // Reset inactivity timer      
+      clearTimeout(timer);
+      timer = setTimeout(timeout, INACTIVITY_TIMEOUT);
+    };
+
+    const timeout = () => {
+      cognigyWebchat.sendMessage('', { inactivityTimeout: true });
+      console.log(`User has been inactive for more than ${INACTIVITY_TIMEOUT / 1000} seconds. Sending the inactivity timeout event to the flow`);
+    };
+
+
+    initWebchat(ENDPOINT_URL).then((webchat) => {
+      window.cognigyWebchat = webchat;
+
+      webchat.registerAnalyticsService((event) => {
+        if (
+          event.type === "webchat/outgoing-message" &&
+          // event.payload?.text !== "GET_STARTED" &&
+          !event.payload?.data?.inactivityTimeout
+        ) {
+          resetTimer(); // User sent a message to the bot. Reset timer
+        }
+
+      });
+    });
+  </script>
+  <!-- End of the Cognigy Webchat embedding code -->
+</body>
+
+</html>

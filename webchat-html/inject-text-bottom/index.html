@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Inject Text at Bottom of Chat</title>
+    <meta charset="UTF-8" />
+    <style>
+      /* Let the notice sit at the end and push to the bottom when the
+         history is taller than its content. */
+      .webchat-chat-history {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #custom-text-box {
+        margin-top: auto; /* pushes the box to the bottom of the history */
+      }
+
+      div.custom-text-box {
+        text-align: center;
+        color: rgb(204, 204, 204);
+        font-size: 11px;
+      }
+
+      .custom-text-box textarea {
+        width: 70%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+    <script>
+    const ENDPOINT_URL = "https://{Cognigy_Base_URL}/{URLToken}";
+
+      initWebchat(ENDPOINT_URL).then((webchat) => {
+        window.cognigyWebchat = webchat;
+      });
+
+      // Inject a static text box (e.g. a privacy notice) into the chat history.
+      let observer = new MutationObserver(() => {
+        let chatHistoryDisplay = document.getElementsByClassName(
+          "webchat-chat-history"
+        );
+        if (!chatHistoryDisplay.length) return;
+
+        let chatHistory = chatHistoryDisplay.item(0);
+        if (document.getElementById("custom-text-box")) return; // already created
+
+        var customTextBox = document.createElement("div");
+        customTextBox.id = "custom-text-box";
+        customTextBox.className = "custom-text-box";
+        customTextBox.ariaLabel = "custom-text-box";
+        customTextBox.innerHTML = `<div class="custom-text-box">
+          <p>Your notice here: <a href="https://www.example.de/de/datenschutz" target="_blank">example data privacy</a></p>
+        </div>`;
+        chatHistory.appendChild(customTextBox); // always add to the end (bottom)
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    </script>
+  </body>
+</html>
