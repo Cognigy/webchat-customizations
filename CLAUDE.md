@@ -1,5 +1,5 @@
 # What this repository is
-This repository is for examples on how to add custom functionlity and design to the standard Cognigy webchat. 
+This repository is for examples on how to add custom functionality and design to the standard Cognigy Webchat.
 
 ## Design principles
 - Use the other projects as an example for the structure of the app
