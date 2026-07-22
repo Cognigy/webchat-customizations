@@ -29,7 +29,6 @@
       }
 
       webchat.registerAnalyticsService((event) => {
-        console.log(event);
         if (event.type === "webchat/incoming-message") {
           if (event?.payload?.data?.chatbox_active === false) {
             setWebchatInputVisibility(false);
