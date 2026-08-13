@@ -39,3 +39,6 @@ Adjust the insertion point by changing the `childNodes` index in `insertBefore`.
 |-------|----------|
 | Text not injected | Verify the webchat renders a `.webchat-chat-history` element |
 | Box appears in the wrong spot | Tweak the `chatHistory.childNodes[...]` index |
+
+## NOTE
+Everything clear.

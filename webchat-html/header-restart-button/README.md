@@ -24,3 +24,13 @@ function restart() {
 }
 ```
 Handle that message in your flow however you want.
+
+## POSSIBLE ADDITION
+I found the description under "Configuration" somehow confusing. I needed to think about it first but then I realized that I only set the message with which the chat is restarted.
+
+Also something like this would be nice:
+**Client (`index.html`):**
+
+| Constant | Description |
+|----------|-------------|
+| `ENDPOINT_URL` | Your Cognigy Webchat endpoint URL. |

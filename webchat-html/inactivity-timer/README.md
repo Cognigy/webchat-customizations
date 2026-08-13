@@ -76,3 +76,6 @@ When the timeout fires, a message is logged:
 ```
 User has been inactive for more than <N> seconds. Sending the inactivity timeout event to the flow
 ```
+
+## NOTE
+Everything clear
