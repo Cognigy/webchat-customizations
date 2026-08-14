@@ -97,6 +97,3 @@ Users may receive a system prompt on Android devices when this feature is first 
 | Toggle doesn't appear | Check if device is touch-primary (phone/tablet) |
 | Wake lock doesn't activate | Browser doesn't support Screen Wake Lock API; check console for errors |
 | Wake lock releases unexpectedly | This is normal when tab is hidden; it resumes when tab is active again |
-
-## NOTE
-The html file is quite long. Maybe it would be a good idea to say that you need to specify the endpoint URL around line 87. Apart from that, everything clear.
