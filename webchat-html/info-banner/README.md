@@ -333,6 +333,3 @@ chosen `backgroundColor`.
 **I want it gone for good after the user acts.**  
 Set `"dismissOnAction": true`, or send `{ "invokeBanner": false }` from the flow  
 after the action postback is received.
-
-## OPTIONAL ADDITION
-The html file is very long. Maybe it would be a good idea to say that you need to specify the endpoint URL around line 450. Apart from that very well described, and the examples are really helpful.
