@@ -26,9 +26,3 @@ handled in the **endpoint transformer** or the flow. The flow should look like t
 
 ## Notes
 This example only sends the `webchatEvent: "feedback"` signal; triggering the rating plugin and persisting/processing the result is expected to be implemented in your transformer/Flow.
-
-**Client (`index.html`):**
-
-| Constant | Description |
-|----------|-------------|
-| `ENDPOINT_URL` | Your Cognigy Webchat endpoint URL. |
