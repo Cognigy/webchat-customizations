@@ -37,7 +37,10 @@
       // `getStartedData` is attached to the initial "GET_STARTED" message,
       // so the flow can read it as `input.data.url`, `input.data.language`,
       // etc. right at the start of the conversation.
-      getStartedData: getStartedData,
+      startBehavior: {
+        startBehavior: "injection", // sendet GET_STARTED automatisch beim Laden, ohne Klick
+        getStartedData: getStartedData
+      }
     };
 
     initWebchat(ENDPOINT_URL, { settings }).then((webchat) => {
