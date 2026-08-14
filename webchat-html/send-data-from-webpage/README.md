@@ -77,19 +77,6 @@ These values are also available for analytics/reporting.
 | Wrong language sent | Adjust the normalization mapping to cover the visitor's browser language |
 | URL is empty or unexpected | `window.location.pathname` reflects the page hosting the webchat; verify the embed location |
 
-## NOTE
-It didn't run with the provided code. I had to change it to:
-```javascript
-const settings = {
-  startBehavior: {
-    startBehavior: "injection", // sendet GET_STARTED automatisch beim Laden, ohne Klick
-    getStartedData: getStartedData,
-  },
-};
-
-initWebchat(ENDPOINT_URL, { settings }).then((webchat) => {
-  window.cognigyWebchat = webchat;
-});
-```
-
-Also it would be worth noting that it is the relative and not the complete URL which is passed to Cognigy.
+## Notes
+- This example sends `window.location.pathname`, so the bot receives a relative URL path (no protocol/host).
+- See `index.html` in this folder for the full, working reference implementation.
