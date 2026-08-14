@@ -24,10 +24,9 @@ handled in the **endpoint transformer** or the flow. The flow should look like t
 
 ![Feedback flow logic](assets/feedback-flow-logic.png)
 
-## POSSIBLE ADDITION
-Everything was clear how to create the customization and how to integrate it to the flow but: it would be nice knowing how the feedback response exactly looks like, where it's stored and how to process it, e.g. if somebody gives a positive feedback, access the response somehow and say something like "We are happy that you liked our service".
+## Notes
+This example only sends the `webchatEvent: "feedback"` signal; triggering the rating plugin and persisting/processing the result is expected to be implemented in your transformer/Flow.
 
-Also something like this would be nice:
 **Client (`index.html`):**
 
 | Constant | Description |
