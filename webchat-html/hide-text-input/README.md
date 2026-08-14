@@ -59,6 +59,3 @@ The customization targets this CSS selector:
 ```
 
 This ensures it only affects the Cognigy Webchat input element.
-
-## NOTE
-Unlike with the other customizations, the webchat widget doesn't load in the Code Sandbox with the provided code.
