@@ -54,5 +54,6 @@ Handle the incoming `changeLanguage` flag in your flow to switch the conversatio
 | Dropdown not injected | Verify the webchat renders a `.webchat-header-bar` element |
 | Language not changing | Confirm the bot handles the `changeLanguage` payload |
 
-## POSSIBLE ADDITION
-I would make the section "From the Bot" more explicit and detailed. It was not entirely clear to me how to handle it in the flow. I had to figure out that I should check for input.data.language for example. Also: how to check for the initial language defined in the webchat settings? Adding this would be useful I think.
+## Notes
+- In your Flow, branch on `input.data.changeLanguage === true` and read `input.data.language`.
+- The initial language is available on the first `GET_STARTED` message as `input.data.language` (from `settings.getStartedData`).
