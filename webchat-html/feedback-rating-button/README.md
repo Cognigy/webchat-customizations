@@ -23,3 +23,6 @@ Because the feedback button drives a flow process, the reaction to the event is
 handled in the **endpoint transformer** or the flow. The flow should look like this to catch the input.data value:
 
 ![Feedback flow logic](assets/feedback-flow-logic.png)
+
+## Notes
+This example only sends the `webchatEvent: "feedback"` signal; triggering the rating plugin and persisting/processing the result is expected to be implemented in your transformer/Flow.

@@ -76,3 +76,7 @@ These values are also available for analytics/reporting.
 | Data not arriving in the flow | Confirm you're reading `input.data.<key>` on the **first** message of the session |
 | Wrong language sent | Adjust the normalization mapping to cover the visitor's browser language |
 | URL is empty or unexpected | `window.location.pathname` reflects the page hosting the webchat; verify the embed location |
+
+## Notes
+- This example sends `window.location.pathname`, so the bot receives a relative URL path (no protocol/host).
+- See `index.html` in this folder for the full, working reference implementation.

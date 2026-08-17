@@ -87,3 +87,8 @@ Your Flow is responsible for two things this example expects:
 
 - Buffering and connection state live in `sessionStorage`, so they are scoped per user + session and survive across the individual socket connect/disconnect cycles.
 - The buffer is cleared when the handover ends (`data.handover === false`) and after a successful flush, so stale messages are never replayed into a later conversation.
+
+## Testing
+- Start a handover and set `output.data.handover = true`.
+- Disconnect/reconnect the socket (refresh the page or toggle network) and send messages while disconnected.
+- Confirm the Flow receives `data.messagesToForward` on `data.event === "userConnected"` and replays them in order.

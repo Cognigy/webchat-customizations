@@ -53,3 +53,7 @@ Handle the incoming `changeLanguage` flag in your flow to switch the conversatio
 | Flags don't show | Ensure the `./flags/*.svg` files exist and paths are correct |
 | Dropdown not injected | Verify the webchat renders a `.webchat-header-bar` element |
 | Language not changing | Confirm the bot handles the `changeLanguage` payload |
+
+## Notes
+- In your Flow, branch on `input.data.changeLanguage === true` and read `input.data.language`.
+- The initial language is available on the first `GET_STARTED` message as `input.data.language` (from `settings.getStartedData`).
